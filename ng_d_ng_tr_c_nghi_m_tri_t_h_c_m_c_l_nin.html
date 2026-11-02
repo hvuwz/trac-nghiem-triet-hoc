@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc Nghiệm Triết Học: 3.1. Vật Chất Quyết Định Ý Thức</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .quiz-card {
+            transition: all 0.2s ease-in-out;
+        }
+        /* Custom radio & checkbox animations */
+        input[type="radio"]:checked + label,
+        input[type="checkbox"]:checked + label {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 text-white p-2.5 rounded-xl shadow-md">
+                    <i class="fa-solid fa-book-bookmark text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg sm:text-xl tracking-tight leading-snug">Triết Học Mác - Lênin</h1>
+                    <p class="text-xs text-blue-200">Chương 3.1: Vật chất quyết định ý thức</p>
+                </div>
+            </div>
+
+            <!-- Quiz Controls & Progress Summary -->
+            <div id="header-progress" class="hidden sm:flex items-center space-x-6">
+                <div class="text-right">
+                    <div class="text-xs text-blue-200 font-medium">Tiến độ bài làm</div>
+                    <div class="text-sm font-bold text-white"><span id="answered-count">0</span>/20 câu</div>
+                </div>
+                <div class="w-32 bg-blue-950/60 rounded-full h-3 p-0.5 border border-blue-700/50">
+                    <div id="header-progress-bar" class="bg-gradient-to-r from-blue-400 to-indigo-400 h-full rounded-full transition-all duration-300 w-0"></div>
+                </div>
+                <button onclick="confirmSubmit()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-4 py-2 rounded-lg text-sm shadow-md hover:shadow-lg transition-all flex items-center space-x-1.5">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                    <span>Nộp bài</span>
+                </button>
+            </div>
+        </div>
+        <!-- Progress bar mobile -->
+        <div class="sm:hidden w-full bg-blue-950/80 h-1.5">
+            <div id="mobile-progress-bar" class="bg-blue-400 h-full transition-all duration-300 w-0"></div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+
+        <!-- START SCREEN -->
+        <div id="start-screen" class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-10 my-6">
+            <div class="text-center mb-8">
+                <span class="bg-blue-100 text-blue-800 text-xs font-extrabold px-3 py-1.5 rounded-full uppercase tracking-wider">Ôn tập trắc nghiệm</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3 mb-2">3.1. Vật Chất Quyết Định Ý Thức</h2>
+                <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+                    Bộ câu hỏi gồm 20 câu tổng hợp đa dạng cấu trúc giúp nắm vững quan niệm của chủ nghĩa duy vật biện chứng, duy tâm và duy vật siêu hình.
+                </p>
+            </div>
+
+            <!-- Quiz Overview Badges -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                <div class="bg-blue-50/70 border border-blue-100 p-4 rounded-xl text-center">
+                    <i class="fa-solid fa-list-check text-blue-600 text-xl mb-1"></i>
+                    <div class="text-xs text-slate-500 font-medium">Phần I</div>
+                    <div class="text-sm font-bold text-slate-800">8 Câu MCQ (1 Đ.Án)</div>
+                </div>
+                <div class="bg-indigo-50/70 border border-indigo-100 p-4 rounded-xl text-center">
+                    <i class="fa-solid fa-square-check text-indigo-600 text-xl mb-1"></i>
+                    <div class="text-xs text-slate-500 font-medium">Phần II</div>
+                    <div class="text-sm font-bold text-slate-800">4 Câu Chọn Nhiều</div>
+                </div>
+                <div class="bg-amber-50/70 border border-amber-100 p-4 rounded-xl text-center">
+                    <i class="fa-solid fa-toggle-on text-amber-600 text-xl mb-1"></i>
+                    <div class="text-xs text-slate-500 font-medium">Phần III</div>
+                    <div class="text-sm font-bold text-slate-800">2 Câu Đúng / Sai</div>
+                </div>
+                <div class="bg-emerald-50/70 border border-emerald-100 p-4 rounded-xl text-center">
+                    <i class="fa-solid fa-diagram-project text-emerald-600 text-xl mb-1"></i>
+                    <div class="text-xs text-slate-500 font-medium">Phần IV</div>
+                    <div class="text-sm font-bold text-slate-800">6 Câu Nối Cột</div>
+                </div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="bg-slate-50 rounded-xl p-5 mb-8 border border-slate-200 text-sm text-slate-700 space-y-2">
+                <h3 class="font-bold text-slate-900 flex items-center text-base">
+                    <i class="fa-solid fa-circle-info text-blue-600 mr-2"></i>Hướng dẫn làm bài:
+                </h3>
+                <ul class="list-disc list-inside space-y-1.5 pl-1 text-xs sm:text-sm">
+                    <li>Bạn có thể chọn hiển thị <b>Từng câu hỏi</b> hoặc <b>Tất cả 20 câu</b> để làm bài.</li>
+                    <li>Sử dụng Bảng câu hỏi bên phải màn hình để di chuyển nhanh tới bất kỳ câu nào.</li>
+                    <li>Nút <b>Nộp bài</b> sẵn sàng bất kỳ lúc nào. Hãy kiểm tra lại trước khi hoàn thành!</li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="startQuiz('single')" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center space-x-2 text-base">
+                    <i class="fa-solid fa-play"></i>
+                    <span>Làm bài từng câu</span>
+                </button>
+                <button onclick="startQuiz('all')" class="w-full sm:w-auto bg-slate-800 hover:bg-slate-900 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center space-x-2 text-base">
+                    <i class="fa-solid fa-border-all"></i>
+                    <span>Hiển thị tất cả 20 câu</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- QUIZ CONTENT CONTAINER -->
+        <div id="quiz-container" class="hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                
+                <!-- Questions Column (3 cols on lg) -->
+                <div class="lg:col-span-3 space-y-6">
+                    
+                    <!-- View Mode Toolbar -->
+                    <div class="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center flex-wrap gap-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-semibold uppercase text-slate-500">Chế độ xem:</span>
+                            <button id="view-single-btn" onclick="switchViewMode('single')" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-100 text-blue-700 transition">
+                                Từng câu
+                            </button>
+                            <button id="view-all-btn" onclick="switchViewMode('all')" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 transition">
+                                Tất cả
+                            </button>
+                        </div>
+
+                        <!-- Single view navigation buttons -->
+                        <div id="single-nav-top" class="flex items-center space-x-2">
+                            <button onclick="navigateQuestion(-1)" id="prev-btn-top" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-700 rounded-lg text-xs font-semibold flex items-center">
+                                <i class="fa-solid fa-chevron-left mr-1"></i> Trước
+                            </button>
+                            <span id="current-question-indicator" class="text-xs font-bold text-slate-700 px-2">
+                                Câu 1 / 20
+                            </span>
+                            <button onclick="navigateQuestion(1)" id="next-btn-top" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-40 rounded-lg text-xs font-semibold flex items-center">
+                                Tiếp <i class="fa-solid fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Question Cards Box -->
+                    <div id="questions-wrapper" class="space-y-6">
+                        <!-- Dynamic questions rendered here by JS -->
+                    </div>
+
+                    <!-- Bottom Nav Controls -->
+                    <div id="single-nav-bottom" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
+                        <button onclick="navigateQuestion(-1)" id="prev-btn-bottom" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-sm flex items-center">
+                            <i class="fa-solid fa-arrow-left mr-2"></i> Câu trước
+                        </button>
+                        <button onclick="confirmSubmit()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-sm shadow transition">
+                            <i class="fa-solid fa-check-double mr-1.5"></i> Nộp bài
+                        </button>
+                        <button onclick="navigateQuestion(1)" id="next-btn-bottom" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-sm flex items-center">
+                            Câu tiếp <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Sidebar Quiz Navigator (1 col on lg) -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200 sticky top-20">
+                        <h3 class="font-bold text-slate-800 text-sm mb-3 flex items-center justify-between">
+                            <span><i class="fa-solid fa-grip mr-2 text-blue-600"></i>Danh sách câu hỏi</span>
+                            <span id="answered-badge" class="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 font-bold rounded-full">0/20</span>
+                        </h3>
+
+                        <!-- Grid Navigator -->
+                        <div id="question-grid" class="grid grid-cols-5 gap-2 my-4">
+                            <!-- 20 Grid buttons generated by JS -->
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="pt-3 border-t border-slate-100 text-xs space-y-2 text-slate-600">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3.5 h-3.5 rounded bg-blue-600 inline-block"></span>
+                                <span>Đã trả lời</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3.5 h-3.5 rounded border-2 border-blue-600 bg-white inline-block"></span>
+                                <span>Đang xem</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3.5 h-3.5 rounded bg-slate-100 border border-slate-300 inline-block"></span>
+                                <span>Chưa làm</span>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button onclick="confirmSubmit()" class="mt-5 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl shadow hover:shadow-md transition flex items-center justify-center space-x-2 text-sm">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Nộp bài ngay</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div id="result-screen" class="hidden max-w-4xl mx-auto my-6 space-y-6">
+            
+            <!-- Result Overview Card -->
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-900 to-slate-900 p-6 sm:p-8 text-white text-center">
+                    <span class="inline-block p-3 bg-white/10 rounded-full mb-3">
+                        <i id="result-icon" class="fa-solid fa-trophy text-amber-400 text-3xl"></i>
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mb-1">Kết Quả Bài Làm</h2>
+                    <p class="text-blue-200 text-sm">Chủ đề: 3.1. Vật chất quyết định ý thức</p>
+                </div>
+
+                <div class="p-6 sm:p-8">
+                    <!-- Score & Stats -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 text-center">
+                        <div class="p-4 rounded-xl bg-blue-50 border border-blue-100">
+                            <div class="text-xs text-slate-500 font-semibold uppercase">Điểm số</div>
+                            <div id="final-score" class="text-3xl font-extrabold text-blue-600 mt-1">0/10</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+                            <div class="text-xs text-slate-500 font-semibold uppercase">Số câu đúng</div>
+                            <div id="correct-count" class="text-3xl font-extrabold text-emerald-600 mt-1">0/20</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-rose-50 border border-rose-100">
+                            <div class="text-xs text-slate-500 font-semibold uppercase">Số câu sai</div>
+                            <div id="wrong-count" class="text-3xl font-extrabold text-rose-600 mt-1">0/20</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-100 border border-slate-200">
+                            <div class="text-xs text-slate-500 font-semibold uppercase">Chưa làm</div>
+                            <div id="unanswered-count" class="text-3xl font-extrabold text-slate-600 mt-1">0/20</div>
+                        </div>
+                    </div>
+
+                    <!-- Motivational Message -->
+                    <div id="result-feedback" class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center font-medium text-slate-700 text-sm sm:text-base mb-8">
+                        Đang tính toán kết quả...
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="restartQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl shadow transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span>Làm lại bài</span>
+                        </button>
+                        <button onclick="scrollToReview()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-6 py-3 rounded-xl shadow transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-magnifying-glass mr-1"></i>
+                            <span>Xem đáp án chi tiết</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Review Container -->
+            <div id="review-container" class="space-y-6 pt-4">
+                <h3 class="text-xl font-bold text-slate-900 flex items-center">
+                    <i class="fa-solid fa-list-check text-blue-600 mr-2.5"></i> Chi Tiết Lời Giải & Đáp Án
+                </h3>
+                <div id="review-wrapper" class="space-y-6">
+                    <!-- Detailed answers list rendered here -->
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Modal Dialog Confirm Submit -->
+    <div id="submit-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl transform transition-all">
+            <div class="text-center mb-5">
+                <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">Xác nhận nộp bài?</h3>
+                <p id="modal-warning-text" class="text-sm text-slate-600 mt-1">
+                    Bạn đã làm 0/20 câu hỏi.
+                </p>
+            </div>
+            <div class="flex space-x-3">
+                <button onclick="closeSubmitModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-sm transition">
+                    Tiếp tục làm bài
+                </button>
+                <button onclick="submitQuiz()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-sm shadow transition">
+                    Xác nhận nộp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-8">
+        <div class="max-w-7xl mx-auto px-4">
+            Môn Triết học Mác - Lênin &bull; Nội dung 3.1. Vật chất quyết định ý thức
+        </div>
+    </footer>
+
+    <!-- QUIZ DATA & APPLICATION SCRIPT -->
+    <script>
+        // 20 QUESTION DATA STRUCTURE
+        const quizQuestions = [
+            // PART 1: MCQ Single Choice (1-8)
+            {
+                id: 1,
+                type: 'mcq-single',
+                section: 'Phần I: Trắc nghiệm 1 đáp án',
+                question: 'Theo chủ nghĩa duy tâm, nguồn gốc của ý thức, tinh thần là gì?',
+                options: [
+                    'A. Là thuộc tính của một dạng vật chất có tổ chức cao là bộ óc người.',
+                    'B. Là sự phản ánh hiện thực khách quan vào đầu óc con người.',
+                    'C. Vốn có của con người, bị trừu tượng hóa thành lực lượng thần bí, tiên thiên.',
+                    'D. Là kết quả của quá trình phát triển lâu dài của giới tự nhiên.'
+                ],
+                correct: 'C',
+                explanation: 'Đối với chủ nghĩa duy tâm, ý thức, tinh thần vốn có của con người đã bị trừu tượng hoá, tách khỏi con người hiện thực thành một hiện tượng thần bí, tiên thiên.'
+            },
+            {
+                id: 2,
+                type: 'mcq-single',
+                section: 'Phần I: Trắc nghiệm 1 đáp án',
+                question: 'Chủ nghĩa duy vật siêu hình khi giải quyết mối quan hệ giữa vật chất và ý thức đã mắc phải sai lầm nào?',
+                options: [
+                    'A. Tuyệt đối hóa yếu tố ý thức, phủ nhận tính khách quan của vật chất.',
+                    'B. Tuyệt đối hóa yếu tố vật chất, chỉ nhấn mạnh một chiều vật chất sinh ra ý thức và phủ nhận tính độc lập tương đối của ý thức.',
+                    'C. Cho rằng ý thức là tính thứ nhất, sinh ra thế giới vật chất.',
+                    'D. Coi vật chất và ý thức tồn tại song song, độc lập với nhau hoàn toàn.'
+                ],
+                correct: 'B',
+                explanation: 'Chủ nghĩa duy vật siêu hình tuyệt đối hoá yếu tố vật chất, chỉ nhấn mạnh một chiều vai trò của vật chất sinh ra ý thức, phủ nhận tính độc lập tương đối của ý thức.'
+            },
+            {
+                id: 3,
+                type: 'mcq-single',
+                section: 'Phần I: Trắc nghiệm 1 đáp án',
+                question: 'Theo quan điểm triết học Mác - Lênin, yếu tố nào quyết định nguồn gốc của ý thức?',
+                options: [
+                    'A. Ý chí chủ quan của con người.',
+                    'B. Sự vận động của các tư tưởng siêu nhiên.',
+                    'C. Vật chất "sinh" ra ý thức; bộ óc người là cơ quan phản ánh để hình thành ý thức.',
+                    'D. Hoạt động lý luận thuần túy của con người.'
+                ],
+                correct: 'C',
+                explanation: 'Vật chất sinh ra ý thức: Con người do giới tự nhiên sinh ra nên ý thức - thuộc tính của bộ óc người cũng do thế giới vật chất sinh ra. Bộ óc người là dạng vật chất có tổ chức cao nhất là cơ quan phản ánh.'
+            },
+            {
+                id: 4,
+                type: 'mcq-single',
+                section: 'Phần I: Trắc nghiệm 1 đáp án',
+                question: 'Trong tác phẩm "Luận cương về Phê bình", C. Mác đã chỉ trích hạn chế của triết học cũ là gì?',
+                options: [
+                    'A. Chỉ coi sự vật, thực tại, cảm tính được nhận thức dưới hình thức khách thể/trực quan, không thấy được hoạt động sáng tạo của con người.',
+                    'B. Quá đề cao vai trò cải tạo thế giới của thực tiễn xã hội.',
+                    'C. Phủ nhận hoàn toàn vai trò của cảm giác trong nhận thức.',
+                    'D. Quá coi trọng tính năng động, sáng tạo của ý thức.'
+                ],
+                correct: 'A',
+                explanation: 'C. Mác chỉ rõ hạn chế của chủ nghĩa duy vật cũ: "Sự vật, thực tại, cảm tính chỉ được nhận thức dưới hình thức khách thể – hay hình thức trực quan, chứ không được nhận thức là hoạt động sáng tạo của con người".'
+            },
+            {
+                id: 5,
+                type: 'mcq-single',
+                section: 'Phần I: Trắc nghiệm 1 đáp án',
+                question: 'Theo quan điểm duy vật biện chứng, vai trò quyết định của vật chất đối với ý thức được thể hiện qua mấy khía cạnh chính?',
+                options: [
+                    'A. 2 khía cạnh.',
+                    'B. 3 khía cạnh.',
+                    'C. 4 khía cạnh.',
+                    'D. 5 khía cạnh.'
+                ],
+                correct: 'C',
+                explanation: 'Vai trò quyết định của vật chất đối với ý thức thể hiện qua 4 khía cạnh: (1) Nguồn gốc, (2) Nội dung, (3) Bản chất, (4) Sự vận động, phát triển.'
+            },
+            {
+                id: 6,
+                type: 'mcq-single',
+                section: 'Phần I: Trắc nghiệm 1 đáp án',
+                question: 'Khía cạnh nào sau đây không nằm trong các nội dung thể hiện vật chất quyết định ý thức?',
+                options: [
+                    'A. Vật chất quyết định nguồn gốc của ý thức.',
+                    'B. Vật chất quyết định nội dung của ý thức.',
+                    'C. Vật chất quyết định bản chất của ý thức.',
+                    'D. Ý thức quyết định sự xuất hiện và cấu trúc của thế giới vật chất.'
+                ],
+                correct: 'D',
+                explanation: 'Ý D là mệnh đề sai hoàn toàn với chủ nghĩa duy vật biện chứng (đó là quan điểm duy tâm).'
+            },
+            {
+                id: 7,
+                type: 'mcq-single',
+                section: 'Phần I: Trắc nghiệm 1 đáp án',
+                question: 'Câu tục ngữ/dân gian nào sau đây phản ánh đúng nội dung triết học về vai trò quyết định của vật chất đối với ý thức?',
+                options: [
+                    'A. "Có thực mới vực được đạo".',
+                    'B. "Trông mặt bắt hình dong".',
+                    'C. "Gần mực thì đen, gần đèn thì rạng".',
+                    'D. "Học thầy không tày học bạn".'
+                ],
+                correct: 'A',
+                explanation: 'Tài liệu nêu rõ: Dân gian có câu "Có thực mới vực được đạo", theo quan điểm duy vật biện chứng, đó là nội dung vai trò của vật chất đối với ý thức.'
+            },
+            {
+                id: 8,
+                type: 'mcq-single',
+                section: 'Phần I: Trắc nghiệm 1 đáp án',
+                question: 'Theo chủ nghĩa duy vật biện chứng, thế giới khách quan phản ánh vào ý thức, trong đó yếu tố nào là động lực mạnh mẽ nhất quyết định tính phong phú và sâu sắc của tư duy?',
+                options: [
+                    'A. Hoạt động bẩm sinh của bộ óc người từ khi sinh ra.',
+                    'B. Hoạt động thực tiễn có tính xã hội - lịch sử của loài người.',
+                    'C. Khả năng tưởng tượng thuần túy của cá nhân.',
+                    'D. Hệ thống ngôn ngữ viết độc lập với thực tiễn.'
+                ],
+                correct: 'B',
+                explanation: 'Sự phát triển của hoạt động thực tiễn cả về bề rộng và chiều sâu là động lực mạnh mẽ nhất quyết định tính phong phú và độ sâu sắc của nội dung tư duy, ý thức con người.'
+            },
+
+            // PART 2: MCQ Multiple Choice (9-12)
+            {
+                id: 9,
+                type: 'mcq-multiple',
+                section: 'Phần II: Trắc nghiệm chọn nhiều đáp án',
+                question: 'Những sai lầm và hạn chế của các nhà triết học duy tâm trong lịch sử bao gồm các ý nào sau đây? (Chọn tất cả các đáp án đúng)',
+                options: [
+                    { id: 'A', text: 'A. Phủ nhận tính khách quan của vật chất.' },
+                    { id: 'B', text: 'B. Cường điệu vai trò của nhân tố chủ quan, duy ý chí, hành động bất chấp quy luật khách quan.' },
+                    { id: 'C', text: 'C. Coi ý thức là tồn tại duy nhất, tuyệt đối, là tính thứ nhất.' },
+                    { id: 'D', text: 'D. Xem thế giới vật chất chỉ là bản sao, biểu hiện khác của ý thức tinh thần.' }
+                ],
+                correct: ['A', 'B', 'C', 'D'],
+                explanation: 'Cả 4 phương án A, B, C, D đều phản ánh chính xác các sai lầm của chủ nghĩa duy tâm được nêu rõ trong bài học.'
+            },
+            {
+                id: 10,
+                type: 'mcq-multiple',
+                section: 'Phần II: Trắc nghiệm chọn nhiều đáp án',
+                question: 'Sự quyết định của vật chất đối với nguồn gốc của ý thức thể hiện qua các điểm nào? (Chọn tất cả các đáp án đúng)',
+                options: [
+                    { id: 'A', text: 'A. Ý thức xuất hiện gắn liền với sự xuất hiện của con người cách đây từ 3 đến 7 triệu năm.' },
+                    { id: 'B', text: 'B. Con người và bộ óc người là kết quả của quá trình phát triển lâu dài của giới tự nhiên.' },
+                    { id: 'C', text: 'C. Bộ óc người là dạng vật chất có tổ chức cao nhất, là cơ quan phản ánh để hình thành ý thức.' },
+                    { id: 'D', text: 'D. Ý thức có thể tự tồn tại độc lập hoàn toàn từ trước khi có thế giới vật chất.' }
+                ],
+                correct: ['A', 'B', 'C'],
+                explanation: 'Các ý A, B, C đúng. Ý D sai vì duy vật biện chứng khẳng định giới tự nhiên có trước, vật chất là tính thứ nhất, ý thức có sau.'
+            },
+            {
+                id: 11,
+                type: 'mcq-multiple',
+                section: 'Phần II: Trắc nghiệm chọn nhiều đáp án',
+                question: 'Bản chất của ý thức theo quan điểm duy vật biện chứng có những đặc điểm gì? (Chọn tất cả các đáp án đúng)',
+                options: [
+                    { id: 'A', text: 'A. Phản ánh và sáng tạo là hai thuộc tính không tách rời trong bản chất của ý thức.' },
+                    { id: 'B', text: 'B. Sự phản ánh của con người không phải là "soi gương", "chụp ảnh" hay "phản ánh tâm lý" như con vật.' },
+                    { id: 'C', text: 'C. Ý thức là sự phản ánh tích cực, tự giác, sáng tạo thông qua thực tiễn.' },
+                    { id: 'D', text: 'D. Ý thức là một thực thể vật chất độc lập có thể tự sinh ra các sự vật khác trong tự nhiên.' }
+                ],
+                correct: ['A', 'B', 'C'],
+                explanation: 'A, B, C đúng theo giáo trình. Ý D sai vì ý thức là sự phản ánh thế giới vật chất vào đầu óc con người chứ bản thân ý thức không phải là một thực thể vật chất độc lập.'
+            },
+            {
+                id: 12,
+                type: 'mcq-multiple',
+                section: 'Phần II: Trắc nghiệm chọn nhiều đáp án',
+                question: 'Khi nói về mối quan hệ giữa vật chất và ý thức theo triết học Mác - Lênin, các nhận định nào sau đây đúng? (Chọn tất cả các đáp án đúng)',
+                options: [
+                    { id: 'A', text: 'A. Vật chất quyết định ý thức, còn ý thức tác động tích cực trở lại vật chất.' },
+                    { id: 'B', text: 'B. Mọi sự tồn tại, phát triển của ý thức đều gắn liền với quá trình biến đổi của vật chất.' },
+                    { id: 'C', text: 'C. Vật chất thay đổi thì sớm hay muộn ý thức cũng phải thay đổi theo.' },
+                    { id: 'D', text: 'D. Ý thức quyết định hoàn toàn sự tồn tại của thế giới vật chất khách quan.' }
+                ],
+                correct: ['A', 'B', 'C'],
+                explanation: 'A, B, C đúng. D sai vì triết học Mác - Lênin khẳng định vật chất quyết định sự tồn tại của ý thức chứ không phải ngược lại.'
+            },
+
+            // PART 3: True / False (13-14)
+            {
+                id: 13,
+                type: 'true-false',
+                section: 'Phần III: Trắc nghiệm Đúng / Sai',
+                question: 'Xác định các nhận định sau đây là Đúng hay Sai:',
+                statements: [
+                    { id: 'a', text: 'a) Chủ nghĩa duy tâm cho rằng thế giới vật chất chỉ là bản sao hoặc biểu hiện khác của ý thức tinh thần.', correct: true },
+                    { id: 'b', text: 'b) Chủ nghĩa duy vật siêu hình hiểu đúng và đầy đủ về tính năng động, sáng tạo của ý thức trong hoạt động thực tiễn.', correct: false },
+                    { id: 'c', text: 'c) Vật chất là cái có trước, ý thức là cái có sau; vật chất là tính thứ nhất, ý thức là tính thứ hai.', correct: true },
+                    { id: 'd', text: 'd) Thực tiễn là hoạt động vật chất có tính cải biến thế giới của con người, là cơ sở để hình thành và phát triển ý thức.', correct: true }
+                ],
+                explanation: 'Ý (b) Sai vì duy vật siêu hình phủ nhận tính độc lập tương đối, không thấy tính năng động sáng tạo của ý thức. Các ý (a), (c), (d) đều Đúng.'
+            },
+            {
+                id: 14,
+                type: 'true-false',
+                section: 'Phần III: Trắc nghiệm Đúng / Sai',
+                question: 'Xác định các nhận định sau đây là Đúng hay Sai:',
+                statements: [
+                    { id: 'a', text: 'a) Ý thức của con người từ khi ra đời hoàn toàn bất biến, không chịu sự chi phối hay biến đổi của đời sống xã hội.', correct: false },
+                    { id: 'b', text: 'b) Trong xã hội, sự phát triển của kinh tế là yếu tố quyết định sự phát triển của văn hóa; đời sống vật chất thay đổi làm cho đời sống tinh thần thay đổi theo.', correct: true },
+                    { id: 'c', text: 'c) Sự phản ánh của con người đối với hiện thực khách quan giống hệt như chiếc gương soi hay máy chụp ảnh.', correct: false },
+                    { id: 'd', text: 'd) Vận động của thế giới vật chất là yếu tố quyết định sự ra đời của cái vật chất có tư duy là bộ óc người.', correct: true }
+                ],
+                explanation: 'Ý (a) Sai vì ý thức biến đổi theo sự phát triển của vật chất & thực tiễn. Ý (c) Sai vì phản ánh ý thức là phản ánh sáng tạo, không phải thụ động như soi gương/chụp ảnh.'
+            },
+
+            // PART 4: Matching / Dropdown Column (15-20)
+            {
+                id: 15,
+                type: 'matching',
+                section: 'Phần IV: Ghép nối cột tương ứng',
+                question: 'Hãy nối các quan điểm triết học ở Cột A cho phù hợp với đặc điểm tương ứng ở Cột B:',
+                colA: [
+                    { id: '1', text: '1. Chủ nghĩa duy tâm' },
+                    { id: '2', text: '2. CNDV siêu hình' },
+                    { id: '3', text: '3. CNDV biện chứng' }
+                ],
+                colB: [
+                    { id: 'a', text: 'a. Tuyệt đối hóa yếu tố vật chất, phủ nhận tính độc lập tương đối của ý thức.' },
+                    { id: 'b', text: 'b. Coi ý thức là tồn tại duy nhất, tuyệt đối, sinh ra thế giới vật chất.' },
+                    { id: 'c', text: 'c. Vật chất quyết định ý thức, ý thức tác động tích cực trở lại vật chất.' }
+                ],
+                correct: { '1': 'b', '2': 'a', '3': 'c' },
+                explanation: 'Đáp án ghép nối đúng: 1-b, 2-a, 3-c.'
+            },
+            {
+                id: 16,
+                type: 'matching',
+                section: 'Phần IV: Ghép nối cột tương ứng',
+                question: 'Hãy nối các khía cạnh thể hiện vai trò quyết định của vật chất đối với ý thức ở Cột A với nội dung giải thích ở Cột B:',
+                colA: [
+                    { id: '1', text: '1. Nguồn gốc của ý thức' },
+                    { id: '2', text: '2. Nội dung của ý thức' },
+                    { id: '3', text: '3. Bản chất của ý thức' },
+                    { id: '4', text: '4. Sự vận động, phát triển' }
+                ],
+                colB: [
+                    { id: 'a', text: 'a. Mọi sự tồn tại, phát triển của ý thức gắn liền với biến đổi của vật chất; vật chất thay đổi thì ý thức đổi thay.' },
+                    { id: 'b', text: 'b. Ý thức là sự phản ánh hiện thực khách quan vào đầu óc người; thế giới khách quan phản ánh vào mới có nội dung.' },
+                    { id: 'c', text: 'c. Phản ánh và sáng tạo là hai thuộc tính không tách rời trong bản chất của ý thức thông qua thực tiễn.' },
+                    { id: 'd', text: 'd. Giới tự nhiên có trước; bộ óc người là dạng vật chất có tổ chức cao sinh ra ý thức.' }
+                ],
+                correct: { '1': 'd', '2': 'b', '3': 'c', '4': 'a' },
+                explanation: 'Đáp án ghép nối đúng: 1-d, 2-b, 3-c, 4-a.'
+            },
+            {
+                id: 17,
+                type: 'matching',
+                section: 'Phần IV: Ghép nối cột tương ứng',
+                question: 'Hãy nối các giai đoạn phát triển ý thức xã hội ở Cột A với biểu hiện thực tế ở Cột B:',
+                colA: [
+                    { id: '1', text: '1. Loài người nguyên thủy' },
+                    { id: '2', text: '2. Xuất hiện chế độ tư hữu' },
+                    { id: '3', text: '3. Sản xuất phát triển hiện đại' }
+                ],
+                colB: [
+                    { id: 'a', text: 'a. Tư duy đơn sơ, giản dị theo sát sản vật thô sơ của thiên nhiên.' },
+                    { id: 'b', text: 'b. Ý thức chính trị, pháp quyền dần thay thế cho ý thức quần cư cộng đồng.' },
+                    { id: 'c', text: 'c. Tính chất xã hội hóa của sản xuất là cơ sở hình thành lý luận khoa học (như CNDV Mác - Lênin).' }
+                ],
+                correct: { '1': 'a', '2': 'b', '3': 'c' },
+                explanation: 'Đáp án ghép nối đúng: 1-a, 2-b, 3-c.'
+            },
+            {
+                id: 18,
+                type: 'matching',
+                section: 'Phần IV: Ghép nối cột tương ứng',
+                question: 'Hãy nối tên khuynh hướng / nhà triết học ở Cột A với quan điểm chỉ rõ ở Cột B:',
+                colA: [
+                    { id: '1', text: '1. C. Mác (trong Luận cương)' },
+                    { id: '2', text: '2. Chủ nghĩa duy tâm' },
+                    { id: '3', text: '3. Chủ nghĩa duy vật siêu hình' }
+                ],
+                colB: [
+                    { id: 'a', text: 'a. Phủ nhận tính khách quan, cường điệu nhân tố chủ quan, duy ý chí, bất chấp quy luật.' },
+                    { id: 'b', text: 'b. Chỉ nhấn mạnh một chiều vật chất sinh ra ý thức, không thấy được tính năng động sáng tạo của ý thức.' },
+                    { id: 'c', text: 'c. Phê bình triết học cũ chỉ nhận thức thực tại dưới dạng trực quan, thiếu mặt hoạt động sáng tạo thực tiễn.' }
+                ],
+                correct: { '1': 'c', '2': 'a', '3': 'b' },
+                explanation: 'Đáp án ghép nối đúng: 1-c, 2-a, 3-b.'
+            },
+            {
+                id: 19,
+                type: 'matching',
+                section: 'Phần IV: Ghép nối cột tương ứng',
+                question: 'Hãy nối ví dụ / biểu hiện xã hội ở Cột A với ý nghĩa triết học tương ứng ở Cột B:',
+                colA: [
+                    { id: '1', text: '1. "Có thực mới vực được đạo"' },
+                    { id: '2', text: '2. Kinh tế phát triển quyết định văn hóa' },
+                    { id: '3', text: '3. Con người dự kiến tương lai dựa trên quy luật' }
+                ],
+                colB: [
+                    { id: 'a', text: 'a. Đời sống vật chất thay đổi làm cho đời sống tinh thần thay đổi theo.' },
+                    { id: 'b', text: 'b. Vai trò quyết định của đời sống vật chất (kinh tế) đối với đời sống tinh thần.' },
+                    { id: 'c', text: 'c. Sự vận động biến đổi của thế giới vật chất và thực tiễn quyết định sự vận động của tư duy, ý thức.' }
+                ],
+                correct: { '1': 'b', '2': 'a', '3': 'c' },
+                explanation: 'Đáp án ghép nối đúng: 1-b, 2-a, 3-c.'
+            },
+            {
+                id: 20,
+                type: 'matching',
+                section: 'Phần IV: Ghép nối cột tương ứng',
+                question: 'Hãy nối các yếu tố cấu thành nguồn gốc ý thức ở Cột A với vai trò ở Cột B:',
+                colA: [
+                    { id: '1', text: '1. Giới tự nhiên (thế giới vật chất)' },
+                    { id: '2', text: '2. Bộ óc người' },
+                    { id: '3', text: '3. Hoạt động thực tiễn xã hội' }
+                ],
+                colB: [
+                    { id: 'a', text: 'a. Động lực mạnh mẽ nhất quyết định tính phong phú và sâu sắc của nội dung tư duy.' },
+                    { id: 'b', text: 'b. Tồn tại khách quan, độc lập với ý thức, là nguồn gốc ban đầu sinh ra ý thức.' },
+                    { id: 'c', text: 'c. Dạng vật chất có tổ chức cao nhất, cơ quan phản ánh để hình thành ý thức.' }
+                ],
+                correct: { '1': 'b', '2': 'c', '3': 'a' },
+                explanation: 'Đáp án ghép nối đúng: 1-b, 2-c, 3-a.'
+            }
+        ];
+
+        // STATE VARIABLES
+        let currentQuestionIndex = 0;
+        let viewMode = 'single'; // 'single' or 'all'
+        let userAnswers = {}; // Stores answers per qID
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            initGridNavigator();
+        });
+
+        function startQuiz(mode) {
+            viewMode = mode;
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('header-progress').classList.remove('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            
+            updateViewModeUI();
+            renderQuestions();
+            updateProgress();
+            scrollToTop();
+        }
+
+        function switchViewMode(mode) {
+            if (viewMode === mode) return;
+            viewMode = mode;
+            updateViewModeUI();
+            renderQuestions();
+            scrollToTop();
+        }
+
+        function updateViewModeUI() {
+            const singleBtn = document.getElementById('view-single-btn');
+            const allBtn = document.getElementById('view-all-btn');
+            const topNav = document.getElementById('single-nav-top');
+            const bottomNavButtons = document.getElementById('single-nav-bottom');
+
+            if (viewMode === 'single') {
+                singleBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition";
+                allBtn.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 transition";
+                topNav.classList.remove('hidden');
+                topNav.classList.add('flex');
+                bottomNavButtons.classList.remove('hidden');
+            } else {
+                allBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition";
+                singleBtn.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 transition";
+                topNav.classList.add('hidden');
+                topNav.classList.remove('flex');
+                bottomNavButtons.classList.add('hidden');
+            }
+        }
+
+        // RENDER QUESTIONS
+        function renderQuestions() {
+            const wrapper = document.getElementById('questions-wrapper');
+            wrapper.innerHTML = '';
+
+            const questionsToRender = (viewMode === 'single') 
+                ? [quizQuestions[currentQuestionIndex]] 
+                : quizQuestions;
+
+            questionsToRender.forEach((q) => {
+                const card = createQuestionCard(q);
+                wrapper.appendChild(card);
+            });
+
+            // Update top navigator label in single view
+            if (viewMode === 'single') {
+                document.getElementById('current-question-indicator').innerText = `Câu ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
+                
+                // Disable/Enable Prev Next
+                document.getElementById('prev-btn-top').disabled = (currentQuestionIndex === 0);
+                document.getElementById('prev-btn-bottom').disabled = (currentQuestionIndex === 0);
+                document.getElementById('next-btn-top').disabled = (currentQuestionIndex === quizQuestions.length - 1);
+                document.getElementById('next-btn-bottom').disabled = (currentQuestionIndex === quizQuestions.length - 1);
+            }
+
+            updateGridButtonsHighlight();
+        }
+
+        function createQuestionCard(q) {
+            const card = document.createElement('div');
+            card.id = `question-card-${q.id}`;
+            card.className = "quiz-card bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-7 relative";
+
+            let html = `
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                    <span class="text-xs font-bold uppercase text-blue-600 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                        ${q.section}
+                    </span>
+                    <span class="text-sm font-extrabold text-slate-400">Câu ${q.id}</span>
+                </div>
+                <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-5 leading-relaxed">
+                    ${q.question}
+                </h3>
+            `;
+
+            // RENDER INTERACTION BODY BY TYPE
+            if (q.type === 'mcq-single') {
+                html += `<div class="space-y-3">`;
+                q.options.forEach((opt) => {
+                    const optKey = opt.trim().charAt(0); // 'A', 'B', 'C', 'D'
+                    const isChecked = userAnswers[q.id] === optKey ? 'checked' : '';
+                    html += `
+                        <div class="relative">
+                            <input type="radio" id="q${q.id}_${optKey}" name="q${q.id}" value="${optKey}" ${isChecked}
+                                   onchange="handleSingleSelect(${q.id}, '${optKey}')" class="peer hidden">
+                            <label for="q${q.id}_${optKey}" 
+                                   class="flex items-start p-4 rounded-xl border-2 border-slate-200 cursor-pointer transition hover:border-blue-300 peer-checked:border-blue-600 peer-checked:bg-blue-50/50">
+                                <span class="w-5 h-5 mt-0.5 rounded-full border-2 border-slate-300 flex items-center justify-center mr-3 shrink-0 peer-checked:border-blue-600">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-blue-600 hidden peer-checked:block"></span>
+                                </span>
+                                <span class="text-sm font-medium text-slate-700 leading-snug">${opt}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            } 
+            else if (q.type === 'mcq-multiple') {
+                const currentArr = userAnswers[q.id] || [];
+                html += `<div class="space-y-3">`;
+                q.options.forEach((opt) => {
+                    const isChecked = currentArr.includes(opt.id) ? 'checked' : '';
+                    html += `
+                        <div class="relative">
+                            <input type="checkbox" id="q${q.id}_${opt.id}" name="q${q.id}" value="${opt.id}" ${isChecked}
+                                   onchange="handleMultipleSelect(${q.id}, '${opt.id}')" class="peer hidden">
+                            <label for="q${q.id}_${opt.id}" 
+                                   class="flex items-start p-4 rounded-xl border-2 border-slate-200 cursor-pointer transition hover:border-indigo-300 peer-checked:border-indigo-600 peer-checked:bg-indigo-50/50">
+                                <span class="w-5 h-5 mt-0.5 rounded border-2 border-slate-300 flex items-center justify-center mr-3 shrink-0 peer-checked:border-indigo-600 peer-checked:bg-indigo-600">
+                                    <i class="fa-solid fa-check text-white text-xs"></i>
+                                </span>
+                                <span class="text-sm font-medium text-slate-700 leading-snug">${opt.text}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+            else if (q.type === 'true-false') {
+                const currentObj = userAnswers[q.id] || {};
+                html += `<div class="space-y-4">`;
+                q.statements.forEach((stmt) => {
+                    const val = currentObj[stmt.id]; // true, false, or undefined
+                    html += `
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="text-sm font-medium text-slate-800 flex-1">${stmt.text}</div>
+                            <div class="flex items-center space-x-2 shrink-0">
+                                <button onclick="handleTrueFalseSelect(${q.id}, '${stmt.id}', true)" 
+                                        class="px-4 py-2 rounded-lg text-xs font-bold transition flex items-center space-x-1 border ${val === true ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'}">
+                                    <i class="fa-solid fa-check"></i> <span>ĐÚNG</span>
+                                </button>
+                                <button onclick="handleTrueFalseSelect(${q.id}, '${stmt.id}', false)" 
+                                        class="px-4 py-2 rounded-lg text-xs font-bold transition flex items-center space-x-1 border ${val === false ? 'bg-rose-600 text-white border-rose-600 shadow-sm' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'}">
+                                    <i class="fa-solid fa-xmark"></i> <span>SAI</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+            else if (q.type === 'matching') {
+                const currentMatches = userAnswers[q.id] || {};
+                html += `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <h4 class="font-bold text-xs uppercase text-slate-500 mb-2">Cột A (Vấn đề)</h4>
+                            <div class="space-y-2 text-xs font-medium text-slate-700">
+                                ${q.colA.map(a => `<div class="p-2 bg-white rounded border border-slate-200">${a.text}</div>`).join('')}
+                            </div>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <h4 class="font-bold text-xs uppercase text-slate-500 mb-2">Cột B (Đặc điểm)</h4>
+                            <div class="space-y-2 text-xs font-medium text-slate-700">
+                                ${q.colB.map(b => `<div class="p-2 bg-white rounded border border-slate-200">${b.text}</div>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50/60 border border-blue-100 p-4 rounded-xl space-y-3">
+                        <h4 class="font-bold text-xs uppercase text-blue-900">Thực hiện ghép nối bằng cách chọn phương án:</h4>
+                        ${q.colA.map(itemA => {
+                            const selectedVal = currentMatches[itemA.id] || '';
+                            return `
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white p-3 rounded-lg border border-slate-200">
+                                    <span class="text-sm font-semibold text-slate-800">${itemA.text}</span>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fa-solid fa-arrow-right text-slate-400 text-xs hidden sm:inline"></i>
+                                        <select onchange="handleMatchingSelect(${q.id}, '${itemA.id}', this.value)" 
+                                                class="w-full sm:w-auto text-xs font-semibold p-2 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                            <option value="">-- Chọn ý Cột B tương ứng --</option>
+                                            ${q.colB.map(itemB => `
+                                                <option value="${itemB.id}" ${selectedVal === itemB.id ? 'selected' : ''}>
+                                                    Ghép với ${itemB.text.substring(0, 35)}...
+                                                </option>
+                                            `).join('')}
+                                        </select>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }
+
+            card.innerHTML = html;
+            return card;
+        }
+
+        // USER ANSWER HANDLERS
+        function handleSingleSelect(qId, value) {
+            userAnswers[qId] = value;
+            updateProgress();
+        }
+
+        function handleMultipleSelect(qId, value) {
+            if (!userAnswers[qId]) {
+                userAnswers[qId] = [];
+            }
+            const index = userAnswers[qId].indexOf(value);
+            if (index > -1) {
+                userAnswers[qId].splice(index, 1);
+            } else {
+                userAnswers[qId].push(value);
+            }
+            if (userAnswers[qId].length === 0) {
+                delete userAnswers[qId];
+            }
+            updateProgress();
+        }
+
+        function handleTrueFalseSelect(qId, stmtId, val) {
+            if (!userAnswers[qId]) {
+                userAnswers[qId] = {};
+            }
+            userAnswers[qId][stmtId] = val;
+            
+            // Re-render card locally for instant UI response
+            renderQuestions();
+            updateProgress();
+        }
+
+        function handleMatchingSelect(qId, colAKey, colBVal) {
+            if (!userAnswers[qId]) {
+                userAnswers[qId] = {};
+            }
+            if (colBVal === '') {
+                delete userAnswers[qId][colAKey];
+            } else {
+                userAnswers[qId][colAKey] = colBVal;
+            }
+
+            if (Object.keys(userAnswers[qId]).length === 0) {
+                delete userAnswers[qId];
+            }
+            updateProgress();
+        }
+
+        // NAVIGATOR & PROGRESS
+        function initGridNavigator() {
+            const grid = document.getElementById('question-grid');
+            grid.innerHTML = '';
+            quizQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `grid-btn-${q.id}`;
+                btn.className = "w-full aspect-square rounded-lg font-extrabold text-xs flex items-center justify-center transition border bg-slate-100 text-slate-600 border-slate-300 hover:bg-slate-200";
+                btn.innerText = q.id;
+                btn.onclick = () => jumpToQuestion(idx);
+                grid.appendChild(btn);
+            });
+        }
+
+        function jumpToQuestion(idx) {
+            currentQuestionIndex = idx;
+            if (viewMode === 'single') {
+                renderQuestions();
+            } else {
+                const target = document.getElementById(`question-card-${quizQuestions[idx].id}`);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+            updateGridButtonsHighlight();
+        }
+
+        function navigateQuestion(direction) {
+            const newIndex = currentQuestionIndex + direction;
+            if (newIndex >= 0 && newIndex < quizQuestions.length) {
+                currentQuestionIndex = newIndex;
+                renderQuestions();
+                scrollToTop();
+            }
+        }
+
+        function isQuestionAnswered(q) {
+            const ans = userAnswers[q.id];
+            if (!ans) return false;
+
+            if (q.type === 'mcq-single') return true;
+            if (q.type === 'mcq-multiple') return ans.length > 0;
+            if (q.type === 'true-false') return Object.keys(ans).length === q.statements.length;
+            if (q.type === 'matching') return Object.keys(ans).length === q.colA.length;
+            return false;
+        }
+
+        function updateProgress() {
+            let answeredCount = 0;
+            quizQuestions.forEach(q => {
+                if (isQuestionAnswered(q)) {
+                    answeredCount++;
+                }
+            });
+
+            document.getElementById('answered-count').innerText = answeredCount;
+            document.getElementById('answered-badge').innerText = `${answeredCount}/20`;
+            
+            const pct = (answeredCount / quizQuestions.length) * 100;
+            document.getElementById('header-progress-bar').style.width = `${pct}%`;
+            document.getElementById('mobile-progress-bar').style.width = `${pct}%`;
+
+            updateGridButtonsHighlight();
+        }
+
+        function updateGridButtonsHighlight() {
+            quizQuestions.forEach((q, idx) => {
+                const btn = document.getElementById(`grid-btn-${q.id}`);
+                if (!btn) return;
+
+                const isAnswered = isQuestionAnswered(q);
+                const isCurrent = (viewMode === 'single' && currentQuestionIndex === idx);
+
+                if (isAnswered) {
+                    btn.className = "w-full aspect-square rounded-lg font-extrabold text-xs flex items-center justify-center transition border bg-blue-600 text-white border-blue-600 shadow-sm";
+                } else {
+                    btn.className = "w-full aspect-square rounded-lg font-extrabold text-xs flex items-center justify-center transition border bg-slate-100 text-slate-600 border-slate-300 hover:bg-slate-200";
+                }
+
+                if (isCurrent) {
+                    btn.className += " ring-2 ring-offset-2 ring-blue-500 font-extrabold";
+                }
+            });
+        }
+
+        // SUBMISSION & SCORING
+        function confirmSubmit() {
+            let answeredCount = 0;
+            quizQuestions.forEach(q => {
+                if (isQuestionAnswered(q)) answeredCount++;
+            });
+
+            const warning = document.getElementById('modal-warning-text');
+            if (answeredCount < quizQuestions.length) {
+                warning.innerText = `Bạn mới hoàn thành ${answeredCount}/20 câu hỏi. Bạn có chắc chắn muốn nộp bài sớm không?`;
+            } else {
+                warning.innerText = `Bạn đã hoàn thành tất cả 20/20 câu hỏi. Nhấn "Xác nhận nộp" để xem điểm.`;
+            }
+
+            document.getElementById('submit-modal').classList.remove('hidden');
+        }
+
+        function closeSubmitModal() {
+            document.getElementById('submit-modal').classList.add('hidden');
+        }
+
+        function submitQuiz() {
+            closeSubmitModal();
+
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('header-progress').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            calculateScoreAndRenderResult();
+            scrollToTop();
+        }
+
+        function calculateScoreAndRenderResult() {
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unansweredCount = 0;
+
+            const reviewWrapper = document.getElementById('review-wrapper');
+            reviewWrapper.innerHTML = '';
+
+            quizQuestions.forEach((q) => {
+                const ans = userAnswers[q.id];
+                let isCorrect = false;
+
+                if (!isQuestionAnswered(q)) {
+                    unansweredCount++;
+                } else {
+                    // VERIFY ANSWER BY TYPE
+                    if (q.type === 'mcq-single') {
+                        isCorrect = (ans === q.correct);
+                    } 
+                    else if (q.type === 'mcq-multiple') {
+                        const userSorted = [...(ans || [])].sort().join(',');
+                        const correctSorted = [...q.correct].sort().join(',');
+                        isCorrect = (userSorted === correctSorted);
+                    }
+                    else if (q.type === 'true-false') {
+                        let allMatched = true;
+                        q.statements.forEach(stmt => {
+                            if (ans[stmt.id] !== stmt.correct) {
+                                allMatched = false;
+                            }
+                        });
+                        isCorrect = allMatched;
+                    }
+                    else if (q.type === 'matching') {
+                        let allMatched = true;
+                        q.colA.forEach(itemA => {
+                            if (ans[itemA.id] !== q.correct[itemA.id]) {
+                                allMatched = false;
+                            }
+                        });
+                        isCorrect = allMatched;
+                    }
+
+                    if (isCorrect) correctCount++;
+                    else wrongCount++;
+                }
+
+                // CREATE REVIEW ITEM CARD
+                const reviewCard = createReviewCard(q, isCorrect, ans);
+                reviewWrapper.appendChild(reviewCard);
+            });
+
+            // SCORE COMPUTATION (Scale of 10)
+            const finalScore = ((correctCount / quizQuestions.length) * 10).toFixed(1);
+
+            document.getElementById('final-score').innerText = `${finalScore}/10`;
+            document.getElementById('correct-count').innerText = `${correctCount}/20`;
+            document.getElementById('wrong-count').innerText = `${wrongCount}/20`;
+            document.getElementById('unanswered-count').innerText = `${unansweredCount}/20`;
+
+            // FEEDBACK TEXT
+            const feedbackEl = document.getElementById('result-feedback');
+            const iconEl = document.getElementById('result-icon');
+
+            if (finalScore >= 8.5) {
+                feedbackEl.className = "p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold text-center";
+                feedbackEl.innerHTML = "🎉 Xuất sắc! Bạn đã nắm vững lý luận Quan niệm vật chất quyết định ý thức môn Triết học Mác - Lênin!";
+                iconEl.className = "fa-solid fa-trophy text-amber-400 text-4xl";
+            } else if (finalScore >= 6.5) {
+                feedbackEl.className = "p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 font-semibold text-center";
+                feedbackEl.innerHTML = "👍 Khá tốt! Bạn đã hiểu đúng hầu hết kiến thức cốt lõi. Hãy rà soát lại các câu sai nhé.";
+                iconEl.className = "fa-solid fa-award text-blue-400 text-4xl";
+            } else {
+                feedbackEl.className = "p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 font-semibold text-center";
+                feedbackEl.innerHTML = "📚 Bạn cần đọc thêm tài liệu bài giảng mục 3.1 và thực hành lại để đạt kết quả cao hơn.";
+                iconEl.className = "fa-solid fa-book-open text-amber-500 text-4xl";
+            }
+        }
+
+        function createReviewCard(q, isCorrect, userAns) {
+            const card = document.createElement('div');
+            card.className = `p-5 sm:p-6 rounded-2xl border-2 ${isCorrect ? 'border-emerald-200 bg-white' : 'border-rose-200 bg-white'} shadow-sm space-y-3`;
+
+            let badge = isCorrect 
+                ? `<span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-extrabold text-xs rounded-full inline-flex items-center"><i class="fa-solid fa-check mr-1.5"></i> ĐÚNG</span>`
+                : `<span class="px-3 py-1 bg-rose-100 text-rose-800 font-extrabold text-xs rounded-full inline-flex items-center"><i class="fa-solid fa-xmark mr-1.5"></i> SAI / CHƯA ĐỦ</span>`;
+
+            let bodyHtml = '';
+
+            if (q.type === 'mcq-single') {
+                bodyHtml = `
+                    <div class="text-xs space-y-1 mt-2">
+                        <div class="font-medium text-slate-700">Lựa chọn của bạn: <b class="${userAns === q.correct ? 'text-emerald-600' : 'text-rose-600'}">${userAns || 'Chưa trả lời'}</b></div>
+                        <div class="font-bold text-emerald-700">Đáp án đúng: ${q.correct}</div>
+                    </div>
+                `;
+            } else if (q.type === 'mcq-multiple') {
+                const userText = userAns ? userAns.join(', ') : 'Chưa trả lời';
+                bodyHtml = `
+                    <div class="text-xs space-y-1 mt-2">
+                        <div class="font-medium text-slate-700">Lựa chọn của bạn: <b class="${isCorrect ? 'text-emerald-600' : 'text-rose-600'}">${userText}</b></div>
+                        <div class="font-bold text-emerald-700">Đáp án đúng: ${q.correct.join(', ')}</div>
+                    </div>
+                `;
+            } else if (q.type === 'true-false') {
+                bodyHtml = `<div class="space-y-1.5 mt-2">`;
+                q.statements.forEach(stmt => {
+                    const uVal = userAns ? userAns[stmt.id] : undefined;
+                    const uText = uVal === true ? 'Đúng' : (uVal === false ? 'Sai' : 'Chưa chọn');
+                    const cText = stmt.correct ? 'Đúng' : 'Sai';
+                    const isStmtCorrect = uVal === stmt.correct;
+
+                    bodyHtml += `
+                        <div class="text-xs p-2 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
+                            <span>${stmt.text}</span>
+                            <span class="font-bold shrink-0 ml-2 ${isStmtCorrect ? 'text-emerald-600' : 'text-rose-600'}">
+                                Bạ̣n chọn: ${uText} | Đ.Án: ${cText}
+                            </span>
+                        </div>
+                    `;
+                });
+                bodyHtml += `</div>`;
+            } else if (q.type === 'matching') {
+                bodyHtml = `<div class="space-y-1.5 mt-2">`;
+                q.colA.forEach(itemA => {
+                    const uVal = userAns ? userAns[itemA.id] : undefined;
+                    const correctVal = q.correct[itemA.id];
+                    const isPairCorrect = uVal === correctVal;
+
+                    bodyHtml += `
+                        <div class="text-xs p-2 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
+                            <span><b>${itemA.text}</b></span>
+                            <span class="font-bold shrink-0 ml-2 ${isPairCorrect ? 'text-emerald-600' : 'text-rose-600'}">
+                                Bạn ghép với (${uVal || '?'}) | Đúng là (${correctVal})
+                            </span>
+                        </div>
+                    `;
+                });
+                bodyHtml += `</div>`;
+            }
+
+            card.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-400">Câu ${q.id}</span>
+                    ${badge}
+                </div>
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">${q.question}</h4>
+                ${bodyHtml}
+                <div class="p-3 bg-blue-50/70 border border-blue-100 rounded-xl text-xs text-blue-900 mt-3">
+                    <span class="font-bold"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> Giải thích lý luận:</span>
+                    <p class="mt-1 leading-relaxed">${q.explanation}</p>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function restartQuiz() {
+            userAnswers = {};
+            currentQuestionIndex = 0;
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+            scrollToTop();
+        }
+
+        function scrollToReview() {
+            document.getElementById('review-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
